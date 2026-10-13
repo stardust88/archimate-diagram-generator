@@ -1,6 +1,6 @@
 .app {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto;
   height: 100%;
 }
 
@@ -134,4 +134,35 @@
   background: var(--bg-panel);
   color: var(--text-muted);
   font-size: 12px;
+}
+
+.canvas.dragOver {
+  outline: 3px dashed var(--accent);
+  outline-offset: -6px;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  background: color-mix(in srgb, var(--am-invalid) 15%, var(--bg));
+  border-bottom: 1px solid var(--am-invalid);
+}
+
+.error button {
+  border: 0;
+  background: none;
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.statusButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
 }

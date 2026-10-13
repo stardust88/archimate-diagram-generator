@@ -16,7 +16,8 @@
     "e2e": "playwright test",
     "fixtures:large": "node scripts/generate-large-fixture.ts",
     "fixtures:count": "node scripts/count-fixtures.mjs",
-    "relationships:convert": "node scripts/convert-relationships.mjs"
+    "relationships:convert": "node scripts/convert-relationships.mjs",
+    "viewpoints:convert": "node scripts/convert-viewpoints.mjs"
   },
   "dependencies": {
     "@xyflow/react": "^12.12.0",

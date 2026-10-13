@@ -1,5 +1,7 @@
+@import './archimate.css';
+
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --bg: #ffffff;
   --bg-panel: #f6f7f9;
@@ -9,10 +11,14 @@
   --text-muted: #5b6270;
   --accent: #2f6fdb;
   --accent-text: #ffffff;
+  /* Background behind hollow relationship markers (resolved where the <marker>s are defined). */
+  --am-marker-bg: var(--bg-canvas);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --am-marker-bg: #141619;
     --bg: #17191d;
     --bg-panel: #1f2227;
     --bg-canvas: #141619;
@@ -22,6 +28,20 @@
     --accent: #5b8ff0;
     --accent-text: #0b0d10;
   }
+}
+
+:root[data-theme='dark'],
+.theme-dark {
+  color-scheme: dark;
+  --am-marker-bg: #141619;
+  --bg: #17191d;
+  --bg-panel: #1f2227;
+  --bg-canvas: #141619;
+  --border: #343941;
+  --text: #e6e8eb;
+  --text-muted: #9aa1ad;
+  --accent: #5b8ff0;
+  --accent-text: #0b0d10;
 }
 
 * {
@@ -44,4 +64,9 @@ body {
 
 button {
   font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }

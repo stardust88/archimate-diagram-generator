@@ -1,0 +1,173 @@
+.muted {
+  color: var(--text-muted);
+}
+
+.tree {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+}
+
+.search {
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+}
+
+.treeList,
+.treeList ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+  outline-offset: -2px;
+}
+
+.row:hover {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.rowSelected {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.row > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.swatch {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border: 1px solid;
+  border-radius: 2px;
+}
+
+.kind {
+  flex: none;
+  width: 10px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.missing {
+  color: var(--am-invalid);
+  font-style: italic;
+}
+
+.popover,
+.warnings {
+  position: absolute;
+  z-index: 20;
+  min-width: 220px;
+  max-width: 420px;
+  max-height: 50vh;
+  overflow: auto;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.18);
+}
+
+.popover {
+  top: 40px;
+  left: 8px;
+}
+
+.warnings {
+  right: 8px;
+  bottom: 36px;
+}
+
+.popover ul,
+.warnings ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+.warnings li {
+  margin: 2px 0;
+}
+
+.popoverHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.popoverHead button {
+  border: 0;
+  background: none;
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.linkButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.tabs {
+  display: flex;
+  overflow-x: auto;
+  min-height: 30px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--border);
+  max-width: 220px;
+}
+
+.tabActive {
+  background: var(--bg-canvas);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.tabButton {
+  overflow: hidden;
+  padding: 6px 4px 6px 10px;
+  border: 0;
+  background: none;
+  color: var(--text);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.tabClose {
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  color: var(--text-muted);
+  font-size: 15px;
+  cursor: pointer;
+}

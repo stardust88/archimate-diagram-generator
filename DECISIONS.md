@@ -78,3 +78,34 @@ relationships, organizations*, propertyDefinitions, views`. **Spec §7.5.1 lists
 
 Unknown element/relationship `xsi:type`s become `type: "Unknown:<original>"`, are allowed any
 relationship by the validator (nothing to check against), and export unchanged.
+
+## Phase 2
+
+- **Figures are pure SVG components** (`editor/figures`: NodeFigure, EdgeFigure, Label, Markers)
+  shared by the React Flow canvas and the gallery page, so screenshots test the real renderer.
+- **Label column excludes the icon on every line** (not only the first): the label box is
+  `w - 2*6 - 16 - 2` wide and centred. Narrowing just the first line produced orphaned first
+  words and mid-word breaks on 120x55 boxes. Labels never overlap the icon (§8.2/§8.7).
+  Line height 1.15em and 4px vertical padding give 3 lines in a default 55px box.
+- **Access arrows** (spec "verify"): the relationship always runs from the behaviour/active
+  element to the passive object; Read = arrowhead at the source end, Write = at the target,
+  ReadWrite = both, Access = none (ArchiMate 3.2 §5.2.1 notation).
+- **Nesting relationship set**: kept the spec's list (Composition, Aggregation, Assignment,
+  Realization, Specialization) plus `NestingRelationship` connections. Not re-verified against
+  the specification text, which is not available offline.
+- **Connections to connections** attach to an invisible 1x1 "anchor" node at the target
+  connection's midpoint (React Flow edges need node ends). The anchor is recomputed from the
+  model on every change.
+- **Edges render above nodes** (`zIndex` 1000), like Archi, so connections between nested
+  nodes are never hidden behind their container's fill.
+- **Stored attachments** (`sourceAttachment`/`targetAttachment`, written by Archi) are used as
+  end points while they still lie on the node; once the node has moved away they are ignored
+  for rendering (and kept in the model).
+- **Viewpoints** come from Archi's `viewpoints.xml` (MIT) via `scripts/convert-viewpoints.mjs`.
+  The XSD names three viewpoints Archi does not define (Application Platform, Goal
+  Contribution, Principles); they, and custom names, allow all element types. Grouping and
+  junctions are allowed in every viewpoint.
+- **Theme**: system preference by default; `data-theme="light|dark"` on `<html>` overrides it
+  (toolbar toggle in Phase 4). Dark fills keep each layer's hue but darken it.
+- **Gallery** is `/?page=gallery`; snapshots live in `e2e/gallery.spec.ts-snapshots/` and are
+  platform-specific (Playwright suffixes them with the OS).

@@ -1,4 +1,5 @@
-relationship-table.json is derived from relationships.xml in the Archi project
+relationship-table.json and viewpoints.json are derived from relationships.xml and
+viewpoints.xml in the Archi project
 (https://github.com/archimatetool/archi), used under the following license:
 
 The MIT License (MIT)

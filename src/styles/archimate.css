@@ -1,0 +1,106 @@
+/* ArchiMate figure colours (spec §8.3). Light values are the spec table; dark values keep the
+   hue per layer but darken fills and lighten strokes for contrast on a dark canvas. */
+:root {
+  --am-strategy-fill: #f5deaa;
+  --am-strategy-stroke: #8c7a50;
+  --am-business-fill: #ffffb5;
+  --am-business-stroke: #8c8c4a;
+  --am-application-fill: #b5ffff;
+  --am-application-stroke: #4a8c8c;
+  --am-technology-fill: #c9e7b7;
+  --am-technology-stroke: #5a7a4a;
+  --am-motivation-fill: #ccccff;
+  --am-motivation-stroke: #5a5a8c;
+  --am-implementation-fill: #ffe0e0;
+  --am-implementation-stroke: #8c5a5a;
+  --am-implementation-alt-fill: #e0ffe0;
+  --am-implementation-alt-stroke: #8c5a5a;
+  --am-location-fill: #fbb875;
+  --am-location-stroke: #8c6a40;
+  --am-grouping-fill: rgb(255 255 255 / 0.3);
+  --am-grouping-stroke: #666666;
+  --am-junction-fill: #000000;
+  --am-junction-stroke: #000000;
+  --am-other-fill: #ffffff;
+  --am-other-stroke: #666666;
+  --am-unknown-fill: #eeeeee;
+  --am-unknown-stroke: #999999;
+  --am-container-fill: #ffffff;
+  --am-container-stroke: #8a8a8a;
+  --am-text: #000000;
+  --am-edge: #333333;
+  --am-selection: #2f6fdb;
+  --am-invalid: #d11a2a;
+  --am-warning: #d98a00;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --am-strategy-fill: #5c4d2a;
+    --am-strategy-stroke: #d9c28e;
+    --am-business-fill: #57572a;
+    --am-business-stroke: #e0e08f;
+    --am-application-fill: #1f5757;
+    --am-application-stroke: #8fe0e0;
+    --am-technology-fill: #34522a;
+    --am-technology-stroke: #a9d996;
+    --am-motivation-fill: #3d3d70;
+    --am-motivation-stroke: #b3b3f0;
+    --am-implementation-fill: #5c3434;
+    --am-implementation-stroke: #e6a8a8;
+    --am-implementation-alt-fill: #2f5c2f;
+    --am-implementation-alt-stroke: #e6a8a8;
+    --am-location-fill: #6b4520;
+    --am-location-stroke: #f0b880;
+    --am-grouping-fill: rgb(255 255 255 / 0.04);
+    --am-grouping-stroke: #a0a0a0;
+    --am-junction-fill: #e6e6e6;
+    --am-junction-stroke: #e6e6e6;
+    --am-other-fill: #2a2d33;
+    --am-other-stroke: #a0a0a0;
+    --am-unknown-fill: #3a3a3a;
+    --am-unknown-stroke: #8a8a8a;
+    --am-container-fill: #23262b;
+    --am-container-stroke: #7a7a7a;
+    --am-text: #f0f0f0;
+    --am-edge: #c8c8c8;
+    --am-selection: #6b9bf5;
+    --am-invalid: #ff5c6a;
+    --am-warning: #ffb733;
+  }
+}
+
+:root[data-theme='dark'],
+.theme-dark {
+  --am-strategy-fill: #5c4d2a;
+  --am-strategy-stroke: #d9c28e;
+  --am-business-fill: #57572a;
+  --am-business-stroke: #e0e08f;
+  --am-application-fill: #1f5757;
+  --am-application-stroke: #8fe0e0;
+  --am-technology-fill: #34522a;
+  --am-technology-stroke: #a9d996;
+  --am-motivation-fill: #3d3d70;
+  --am-motivation-stroke: #b3b3f0;
+  --am-implementation-fill: #5c3434;
+  --am-implementation-stroke: #e6a8a8;
+  --am-implementation-alt-fill: #2f5c2f;
+  --am-implementation-alt-stroke: #e6a8a8;
+  --am-location-fill: #6b4520;
+  --am-location-stroke: #f0b880;
+  --am-grouping-fill: rgb(255 255 255 / 0.04);
+  --am-grouping-stroke: #a0a0a0;
+  --am-junction-fill: #e6e6e6;
+  --am-junction-stroke: #e6e6e6;
+  --am-other-fill: #2a2d33;
+  --am-other-stroke: #a0a0a0;
+  --am-unknown-fill: #3a3a3a;
+  --am-unknown-stroke: #8a8a8a;
+  --am-container-fill: #23262b;
+  --am-container-stroke: #7a7a7a;
+  --am-text: #f0f0f0;
+  --am-edge: #c8c8c8;
+  --am-selection: #6b9bf5;
+  --am-invalid: #ff5c6a;
+  --am-warning: #ffb733;
+}

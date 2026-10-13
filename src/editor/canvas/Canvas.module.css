@@ -1,0 +1,29 @@
+.canvas {
+  position: absolute;
+  inset: 0;
+  --am-marker-bg: var(--bg-canvas);
+}
+
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.canvas :global(.react-flow) {
+  --xy-background-color: var(--bg-canvas);
+  --xy-node-boxshadow-selected: none;
+  --xy-minimap-background-color: var(--bg-panel);
+  --xy-controls-button-background-color: var(--bg);
+  --xy-controls-button-color: var(--text);
+  --xy-controls-button-border-color: var(--border);
+}
+
+.canvas :global(.react-flow__node) {
+  cursor: default;
+}
+
+.canvas :global(.react-flow__edge-interaction) {
+  pointer-events: stroke;
+}

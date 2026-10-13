@@ -1,0 +1,168 @@
+{
+  "source": "Archi viewpoints.xml (MIT), https://github.com/archimatetool/archi",
+  "viewpoints": {
+    "Organization": [
+      "BusinessActor",
+      "BusinessCollaboration",
+      "BusinessInterface",
+      "BusinessRole",
+      "Location"
+    ],
+    "Business Process Cooperation": [
+      "$ApplicationElements$",
+      "BusinessActor",
+      "BusinessCollaboration",
+      "BusinessEvent",
+      "BusinessFunction",
+      "BusinessInteraction",
+      "BusinessInterface",
+      "BusinessObject",
+      "BusinessProcess",
+      "BusinessRole",
+      "BusinessService",
+      "Location",
+      "Representation"
+    ],
+    "Product": [
+      "$ApplicationElements$",
+      "Artifact",
+      "BusinessActor",
+      "BusinessCollaboration",
+      "BusinessEvent",
+      "BusinessFunction",
+      "BusinessInteraction",
+      "BusinessInterface",
+      "BusinessObject",
+      "BusinessProcess",
+      "BusinessRole",
+      "BusinessService",
+      "Contract",
+      "Material",
+      "Product",
+      "TechnologyService",
+      "Value"
+    ],
+    "Application Cooperation": ["$ApplicationElements$", "Location"],
+    "Application Structure": [
+      "ApplicationComponent",
+      "ApplicationCollaboration",
+      "ApplicationInterface",
+      "DataObject"
+    ],
+    "Application Usage": [
+      "$ApplicationElements$",
+      "BusinessActor",
+      "BusinessCollaboration",
+      "BusinessEvent",
+      "BusinessFunction",
+      "BusinessInteraction",
+      "BusinessObject",
+      "BusinessProcess",
+      "BusinessRole"
+    ],
+    "Implementation and Deployment": [
+      "$ApplicationElements$",
+      "Artifact",
+      "Path",
+      "SystemSoftware",
+      "TechnologyFunction",
+      "TechnologyInteraction",
+      "TechnologyInterface",
+      "TechnologyProcess",
+      "TechnologyService"
+    ],
+    "Technology": ["$TechnologyElements$", "Location"],
+    "Technology Usage": [
+      "ApplicationComponent",
+      "ApplicationCollaboration",
+      "ApplicationEvent",
+      "ApplicationFunction",
+      "ApplicationInteraction",
+      "ApplicationProcess",
+      "$TechnologyElements$"
+    ],
+    "Information Structure": [
+      "Artifact",
+      "BusinessObject",
+      "DataObject",
+      "Meaning",
+      "Representation"
+    ],
+    "Service Realization": [
+      "$ApplicationElements$",
+      "BusinessActor",
+      "BusinessCollaboration",
+      "BusinessEvent",
+      "BusinessFunction",
+      "BusinessInteraction",
+      "BusinessInterface",
+      "BusinessObject",
+      "BusinessProcess",
+      "BusinessRole",
+      "BusinessService",
+      "Representation"
+    ],
+    "Physical": [
+      "$PhysicalElements$",
+      "CommunicationNetwork",
+      "Device",
+      "Location",
+      "Node",
+      "Path"
+    ],
+    "Stakeholder": ["Assessment", "Driver", "Goal", "Outcome", "Stakeholder"],
+    "Goal Realization": ["Constraint", "Goal", "Outcome", "Principle", "Requirement"],
+    "Requirements Realization": [
+      "Constraint",
+      "Goal",
+      "Meaning",
+      "Outcome",
+      "Principle",
+      "Requirement",
+      "Value",
+      "$StrategyElements$",
+      "$BusinessElements$",
+      "$ApplicationElements$",
+      "$TechnologyElements$",
+      "Location"
+    ],
+    "Motivation": ["$MotivationElements$"],
+    "Strategy": ["$StrategyElements$", "Outcome"],
+    "Capability Map": ["Capability", "Outcome", "Resource"],
+    "Value Stream": ["Capability", "Outcome", "Stakeholder", "ValueStream"],
+    "Outcome Realization": [
+      "Capability",
+      "Meaning",
+      "Outcome",
+      "Resource",
+      "Value",
+      "ValueStream",
+      "$BusinessElements$",
+      "$ApplicationElements$",
+      "$TechnologyElements$",
+      "Location"
+    ],
+    "Resource Map": ["Capability", "Resource", "WorkPackage"],
+    "Project": [
+      "BusinessActor",
+      "BusinessRole",
+      "Deliverable",
+      "Goal",
+      "ImplementationEvent",
+      "Outcome",
+      "WorkPackage"
+    ],
+    "Migration": ["Gap", "Plateau"],
+    "Implementation and Migration": [
+      "$BusinessElements$",
+      "$ApplicationElements$",
+      "$TechnologyElements$",
+      "$ImplementationMigrationElements$",
+      "Constraint",
+      "Goal",
+      "Location",
+      "Requirement"
+    ],
+    "Layered": []
+  }
+}
