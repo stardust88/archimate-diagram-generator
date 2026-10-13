@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.opengroup.org/xsd/archimate/3.0/ http://www.opengroup.org/xsd/archimate/3.1/archimate3_Diagram.xsd"
+       identifier="id-om-model">
+  <name xml:lang="en">Order Management</name>
+  <documentation xml:lang="en">Sample model covering motivation, business, application and technology layers, with nesting, junctions and two views.</documentation>
+  <properties>
+    <property propertyDefinitionRef="pd-owner"><value xml:lang="en">Enterprise Architecture</value></property>
+  </properties>
+  <elements>
+    <!-- Motivation -->
+    <element identifier="id-stk-sales" xsi:type="Stakeholder"><name xml:lang="en">Head of Sales</name></element>
+    <element identifier="id-drv-growth" xsi:type="Driver"><name xml:lang="en">Online growth</name></element>
+    <element identifier="id-goal-fast" xsi:type="Goal"><name xml:lang="en">Ship orders within 24h</name></element>
+    <element identifier="id-req-track" xsi:type="Requirement"><name xml:lang="en">Customers can track orders</name></element>
+    <!-- Business -->
+    <element identifier="id-act-cust" xsi:type="BusinessActor"><name xml:lang="en">Customer</name></element>
+    <element identifier="id-role-buyer" xsi:type="BusinessRole"><name xml:lang="en">Buyer</name></element>
+    <element identifier="id-svc-order" xsi:type="BusinessService"><name xml:lang="en">Order Service</name></element>
+    <element identifier="id-proc-handle" xsi:type="BusinessProcess">
+      <name xml:lang="en">Handle Order</name>
+      <documentation xml:lang="en">End-to-end order handling.</documentation>
+      <properties>
+        <property propertyDefinitionRef="pd-owner"><value xml:lang="en">Operations</value></property>
+      </properties>
+    </element>
+    <element identifier="id-ev-received" xsi:type="BusinessEvent"><name xml:lang="en">Order received</name></element>
+    <element identifier="id-proc-check" xsi:type="BusinessProcess"><name xml:lang="en">Check stock</name></element>
+    <element identifier="id-proc-pay" xsi:type="BusinessProcess"><name xml:lang="en">Take payment</name></element>
+    <element identifier="id-proc-ship" xsi:type="BusinessProcess"><name xml:lang="en">Ship order</name></element>
+    <element identifier="id-jn-and" xsi:type="AndJunction"/>
+    <element identifier="id-bo-order" xsi:type="BusinessObject"><name xml:lang="en">Order</name></element>
+    <!-- Application -->
+    <element identifier="id-app-shop" xsi:type="ApplicationComponent"><name xml:lang="en">Web Shop</name></element>
+    <element identifier="id-app-erp" xsi:type="ApplicationComponent"><name xml:lang="en">ERP</name></element>
+    <element identifier="id-asvc-orders" xsi:type="ApplicationService"><name xml:lang="en">Order API</name></element>
+    <element identifier="id-afn-orders" xsi:type="ApplicationFunction"><name xml:lang="en">Order Processing</name></element>
+    <element identifier="id-do-order" xsi:type="DataObject"><name xml:lang="en">Order Record</name></element>
+    <!-- Technology -->
+    <element identifier="id-node-k8s" xsi:type="Node"><name xml:lang="en">Kubernetes Cluster</name></element>
+    <element identifier="id-ss-pg" xsi:type="SystemSoftware"><name xml:lang="en">PostgreSQL</name></element>
+    <element identifier="id-art-shop" xsi:type="Artifact"><name xml:lang="en">webshop.jar</name></element>
+    <element identifier="id-grp-dc" xsi:type="Grouping"><name xml:lang="en">EU Data Centre</name></element>
+  </elements>
+  <relationships>
+    <relationship identifier="id-r1" source="id-stk-sales" target="id-drv-growth" xsi:type="Association"/>
+    <relationship identifier="id-r2" source="id-drv-growth" target="id-goal-fast" xsi:type="Influence" modifier="+"/>
+    <relationship identifier="id-r3" source="id-req-track" target="id-goal-fast" xsi:type="Realization"/>
+    <relationship identifier="id-r4" source="id-act-cust" target="id-role-buyer" xsi:type="Assignment"/>
+    <relationship identifier="id-r5" source="id-svc-order" target="id-role-buyer" xsi:type="Serving"/>
+    <relationship identifier="id-r6" source="id-proc-handle" target="id-svc-order" xsi:type="Realization"/>
+    <relationship identifier="id-r7" source="id-proc-handle" target="id-proc-check" xsi:type="Composition"/>
+    <relationship identifier="id-r8" source="id-proc-handle" target="id-proc-pay" xsi:type="Composition"/>
+    <relationship identifier="id-r9" source="id-proc-handle" target="id-proc-ship" xsi:type="Composition"/>
+    <relationship identifier="id-r10" source="id-ev-received" target="id-jn-and" xsi:type="Triggering"/>
+    <relationship identifier="id-r11" source="id-jn-and" target="id-proc-check" xsi:type="Triggering"/>
+    <relationship identifier="id-r12" source="id-jn-and" target="id-proc-pay" xsi:type="Triggering"/>
+    <relationship identifier="id-r13" source="id-proc-check" target="id-proc-ship" xsi:type="Triggering"/>
+    <relationship identifier="id-r14" source="id-proc-handle" target="id-bo-order" xsi:type="Access" accessType="Write"/>
+    <relationship identifier="id-r15" source="id-asvc-orders" target="id-proc-handle" xsi:type="Serving"/>
+    <relationship identifier="id-r16" source="id-afn-orders" target="id-asvc-orders" xsi:type="Realization"/>
+    <relationship identifier="id-r17" source="id-app-erp" target="id-afn-orders" xsi:type="Assignment"/>
+    <relationship identifier="id-r18" source="id-afn-orders" target="id-do-order" xsi:type="Access" accessType="ReadWrite"/>
+    <relationship identifier="id-r19" source="id-do-order" target="id-bo-order" xsi:type="Realization"/>
+    <relationship identifier="id-r20" source="id-app-shop" target="id-app-erp" xsi:type="Flow">
+      <name xml:lang="en">orders</name>
+    </relationship>
+    <relationship identifier="id-r21" source="id-art-shop" target="id-app-shop" xsi:type="Realization"/>
+    <relationship identifier="id-r22" source="id-node-k8s" target="id-ss-pg" xsi:type="Composition"/>
+    <relationship identifier="id-r23" source="id-node-k8s" target="id-art-shop" xsi:type="Assignment"/>
+    <relationship identifier="id-r24" source="id-grp-dc" target="id-node-k8s" xsi:type="Aggregation"/>
+    <relationship identifier="id-r25" source="id-svc-order" target="id-req-track" xsi:type="Realization"/>
+  </relationships>
+  <organizations>
+    <item><label xml:lang="en">Motivation</label>
+      <item identifierRef="id-stk-sales"/><item identifierRef="id-drv-growth"/><item identifierRef="id-goal-fast"/><item identifierRef="id-req-track"/>
+    </item>
+    <item><label xml:lang="en">Business</label>
+      <item identifierRef="id-act-cust"/><item identifierRef="id-role-buyer"/><item identifierRef="id-svc-order"/><item identifierRef="id-proc-handle"/>
+      <item identifierRef="id-ev-received"/><item identifierRef="id-proc-check"/><item identifierRef="id-proc-pay"/><item identifierRef="id-proc-ship"/>
+      <item identifierRef="id-bo-order"/>
+    </item>
+    <item><label xml:lang="en">Application</label>
+      <item identifierRef="id-app-shop"/><item identifierRef="id-app-erp"/><item identifierRef="id-asvc-orders"/><item identifierRef="id-afn-orders"/><item identifierRef="id-do-order"/>
+    </item>
+    <item><label xml:lang="en">Technology &amp; Physical</label>
+      <item identifierRef="id-node-k8s"/><item identifierRef="id-ss-pg"/><item identifierRef="id-art-shop"/>
+    </item>
+    <item><label xml:lang="en">Other</label>
+      <item identifierRef="id-jn-and"/><item identifierRef="id-grp-dc"/>
+    </item>
+    <item><label xml:lang="en">Views</label>
+      <item identifierRef="id-v-layered"/><item identifierRef="id-v-process"/>
+    </item>
+  </organizations>
+  <propertyDefinitions>
+    <propertyDefinition identifier="pd-owner" type="string"><name xml:lang="en">Owner</name></propertyDefinition>
+  </propertyDefinitions>
+  <views>
+    <diagrams>
+      <view identifier="id-v-layered" xsi:type="Diagram" viewpoint="Layered">
+        <name xml:lang="en">Layered Overview</name>
+        <node identifier="n-stk" elementRef="id-stk-sales" xsi:type="Element" x="40" y="20" w="140" h="55"/>
+        <node identifier="n-drv" elementRef="id-drv-growth" xsi:type="Element" x="240" y="20" w="140" h="55"/>
+        <node identifier="n-goal" elementRef="id-goal-fast" xsi:type="Element" x="440" y="20" w="150" h="55"/>
+        <node identifier="n-req" elementRef="id-req-track" xsi:type="Element" x="660" y="20" w="160" h="55"/>
+        <node identifier="n-cust" elementRef="id-act-cust" xsi:type="Element" x="40" y="130" w="140" h="55"/>
+        <node identifier="n-buyer" elementRef="id-role-buyer" xsi:type="Element" x="240" y="130" w="140" h="55"/>
+        <node identifier="n-svc" elementRef="id-svc-order" xsi:type="Element" x="440" y="130" w="150" h="55"/>
+        <node identifier="n-bo" elementRef="id-bo-order" xsi:type="Element" x="680" y="230" w="140" h="55"/>
+        <node identifier="n-proc" elementRef="id-proc-handle" xsi:type="Element" x="300" y="220" w="340" h="100">
+          <node identifier="n-p-check" elementRef="id-proc-check" xsi:type="Element" x="312" y="252" w="100" h="55"/>
+          <node identifier="n-p-pay" elementRef="id-proc-pay" xsi:type="Element" x="420" y="252" w="100" h="55"/>
+          <node identifier="n-p-ship" elementRef="id-proc-ship" xsi:type="Element" x="528" y="252" w="100" h="55"/>
+        </node>
+        <node identifier="n-asvc" elementRef="id-asvc-orders" xsi:type="Element" x="400" y="370" w="140" h="55"/>
+        <node identifier="n-erp" elementRef="id-app-erp" xsi:type="Element" x="300" y="460" w="340" h="100">
+          <node identifier="n-afn" elementRef="id-afn-orders" xsi:type="Element" x="400" y="492" w="140" h="55"/>
+        </node>
+        <node identifier="n-shop" elementRef="id-app-shop" xsi:type="Element" x="40" y="480" w="140" h="55"/>
+        <node identifier="n-do" elementRef="id-do-order" xsi:type="Element" x="680" y="490" w="140" h="55"/>
+        <node identifier="n-grp" elementRef="id-grp-dc" xsi:type="Element" x="20" y="610" w="640" h="160">
+          <node identifier="n-k8s" elementRef="id-node-k8s" xsi:type="Element" x="40" y="650" w="600" h="100">
+            <node identifier="n-art" elementRef="id-art-shop" xsi:type="Element" x="60" y="680" w="130" h="55"/>
+            <node identifier="n-pg" elementRef="id-ss-pg" xsi:type="Element" x="400" y="680" w="140" h="55"/>
+          </node>
+        </node>
+        <node identifier="n-note" xsi:type="Label" x="680" y="640" w="180" h="60">
+          <label xml:lang="en">Sample model for the
+ArchiMate editor</label>
+          <style>
+            <fillColor r="255" g="255" b="255" a="100"/>
+            <lineColor r="92" g="92" b="92"/>
+          </style>
+        </node>
+        <connection identifier="c1" relationshipRef="id-r1" xsi:type="Relationship" source="n-stk" target="n-drv"/>
+        <connection identifier="c2" relationshipRef="id-r2" xsi:type="Relationship" source="n-drv" target="n-goal"/>
+        <connection identifier="c3" relationshipRef="id-r3" xsi:type="Relationship" source="n-req" target="n-goal"/>
+        <connection identifier="c25" relationshipRef="id-r25" xsi:type="Relationship" source="n-svc" target="n-req"/>
+        <connection identifier="c4" relationshipRef="id-r4" xsi:type="Relationship" source="n-cust" target="n-buyer"/>
+        <connection identifier="c5" relationshipRef="id-r5" xsi:type="Relationship" source="n-svc" target="n-buyer"/>
+        <connection identifier="c6" relationshipRef="id-r6" xsi:type="Relationship" source="n-proc" target="n-svc"/>
+        <connection identifier="c13" relationshipRef="id-r13" xsi:type="Relationship" source="n-p-check" target="n-p-ship">
+          <bendpoint x="362" y="315"/>
+          <bendpoint x="578" y="315"/>
+        </connection>
+        <connection identifier="c14" relationshipRef="id-r14" xsi:type="Relationship" source="n-proc" target="n-bo"/>
+        <connection identifier="c15" relationshipRef="id-r15" xsi:type="Relationship" source="n-asvc" target="n-proc"/>
+        <connection identifier="c16" relationshipRef="id-r16" xsi:type="Relationship" source="n-afn" target="n-asvc"/>
+        <connection identifier="c18" relationshipRef="id-r18" xsi:type="Relationship" source="n-afn" target="n-do"/>
+        <connection identifier="c19" relationshipRef="id-r19" xsi:type="Relationship" source="n-do" target="n-bo"/>
+        <connection identifier="c20" relationshipRef="id-r20" xsi:type="Relationship" source="n-shop" target="n-erp"/>
+        <connection identifier="c21" relationshipRef="id-r21" xsi:type="Relationship" source="n-art" target="n-shop"/>
+        <connection identifier="c-note" xsi:type="Line" source="n-note" target="n-k8s"/>
+      </view>
+      <view identifier="id-v-process" xsi:type="Diagram" viewpoint="Business Process Cooperation">
+        <name xml:lang="en">Order Flow</name>
+        <node identifier="p-ev" elementRef="id-ev-received" xsi:type="Element" x="40" y="120" w="130" h="55"/>
+        <node identifier="p-jn" elementRef="id-jn-and" xsi:type="Element" x="220" y="140" w="15" h="15"/>
+        <node identifier="p-check" elementRef="id-proc-check" xsi:type="Element" x="290" y="40" w="130" h="55"/>
+        <node identifier="p-pay" elementRef="id-proc-pay" xsi:type="Element" x="290" y="200" w="130" h="55"/>
+        <node identifier="p-ship" elementRef="id-proc-ship" xsi:type="Element" x="500" y="40" w="130" h="55"/>
+        <node identifier="p-bo" elementRef="id-bo-order" xsi:type="Element" x="500" y="200" w="130" h="55"/>
+        <connection identifier="pc10" relationshipRef="id-r10" xsi:type="Relationship" source="p-ev" target="p-jn"/>
+        <connection identifier="pc11" relationshipRef="id-r11" xsi:type="Relationship" source="p-jn" target="p-check">
+          <bendpoint x="227" y="67"/>
+        </connection>
+        <connection identifier="pc12" relationshipRef="id-r12" xsi:type="Relationship" source="p-jn" target="p-pay">
+          <bendpoint x="227" y="227"/>
+        </connection>
+        <connection identifier="pc13" relationshipRef="id-r13" xsi:type="Relationship" source="p-check" target="p-ship"/>
+      </view>
+    </diagrams>
+  </views>
+</model>
