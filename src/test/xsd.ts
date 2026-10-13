@@ -1,10 +1,10 @@
 // XSD validation for tests (spec §7.5.8, §13). Runs xmllint (WASM) against the official schemas
-// in /schemas. Fully offline: remote schemaLocations are rewritten to the local copies.
+// in /schemas (paths relative to the repo root, where Vitest and Playwright run). Fully offline: remote schemaLocations are rewritten to the local copies.
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { validateXML } from 'xmllint-wasm';
 
-const SCHEMA_DIR = join(__dirname, '../../schemas');
+const SCHEMA_DIR = join(process.cwd(), 'schemas');
 const ARCHIMATE_NS = 'http://www.opengroup.org/xsd/archimate/3.0/';
 const DC_NS = 'http://purl.org/dc/elements/1.1/';
 const VENDOR_NS = 'urn:example:vendor';
@@ -43,7 +43,7 @@ export async function validateAgainstXsd(xml: string, fileName = 'input.xml'): P
   ].map((f) => ({ fileName: f, contents: load(f) }));
   preload.push({
     fileName: 'vendor-ext.xsd',
-    contents: readFileSync(join(__dirname, 'vendor-ext.xsd'), 'utf8'),
+    contents: readFileSync(join(process.cwd(), 'src/test/vendor-ext.xsd'), 'utf8'),
   });
   const result = await validateXML({
     xml: { fileName, contents: xml },

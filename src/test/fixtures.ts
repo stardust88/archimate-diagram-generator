@@ -4,7 +4,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
-export const FIXTURE_DIR = join(__dirname, '../../fixtures');
+export const FIXTURE_DIR = join(process.cwd(), 'fixtures');
 
 export interface FixtureExpectation {
   elements: number;

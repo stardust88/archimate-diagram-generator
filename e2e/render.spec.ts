@@ -3,7 +3,9 @@ import { openFixture } from './helpers';
 
 test('opens a fixture and renders its first view with nesting and edges', async ({ page }) => {
   await openFixture(page, 'opengroup/interop-snippet-03.xml');
-  await expect(page.getByRole('toolbar')).toContainText('Interoperability testing snippet-3');
+  await expect(page.getByRole('textbox', { name: 'Model name' })).toHaveValue(
+    'Interoperability testing snippet-3',
+  );
   await expect(page.getByRole('tab', { name: /Default View/ })).toBeVisible();
   const canvas = page.getByTestId('canvas');
   await expect(canvas.locator('.react-flow__node')).toHaveCount(24);
@@ -23,5 +25,7 @@ test('reports a parse error and keeps the current model', async ({ page }) => {
   await openFixture(page, 'synthetic/multi-lang.xml');
   await openFixture(page, '../package.json');
   await expect(page.getByRole('alert')).toContainText('Could not open package.json');
-  await expect(page.getByRole('toolbar')).toContainText('Gestion des commandes');
+  await expect(page.getByRole('textbox', { name: 'Model name' })).toHaveValue(
+    'Gestion des commandes',
+  );
 });

@@ -109,3 +109,37 @@ relationship by the validator (nothing to check against), and export unchanged.
   (toolbar toggle in Phase 4). Dark fills keep each layer's hue but darken it.
 - **Gallery** is `/?page=gallery`; snapshots live in `e2e/gallery.spec.ts-snapshots/` and are
   platform-specific (Playwright suffixes them with the OS).
+
+## Phase 3
+
+- **Commands use Immer patches**: `apply` records forward/inverse patches, so `invert` is
+  exact for every command and redo replays the recorded patches (ids generated in a factory
+  stay stable). `compound()` merges recipes into one undo step (e.g. move + re-nest + nesting
+  relationship on one drop).
+- **Selection lives in the store** (single source of truth). React Flow `select` changes from
+  `onNodesChange`/`onEdgesChange` are written to the store and flow back as `selected` flags;
+  `onSelectionChange` is not used (two paths raced and dropped selections).
+- **Connecting**: dragging from a thin band along any node border; the target (node or
+  connection) is found with `elementsFromPoint`, then a menu lists only the valid relationship
+  types (§10). Ends that are notes/containers get a plain `Line` connection. Resizing uses the
+  four corner handles only, so the borders stay free for connecting.
+- **Nesting (§9.4)**: drop target = deepest node under the dropped node's centre (labels and
+  junctions cannot be parents). One valid relationship: created silently with an Undo toast;
+  several: picker with "Don't create relationship"; existing relationship: just nest; none:
+  info toast. With several nodes dropped at once, nesting is visual only (no picker storm).
+- **Delete from model** reparents nested child nodes of a removed node to the next ancestor
+  instead of deleting them (they show other model elements).
+- **Paste**: into a view that does not show the element, nodes reference the existing
+  elements (same model objects, across views). Into a view that already shows them (or Ctrl+D),
+  elements and the relationships between them are copied.
+- **New elements and relationships** go into default folders (§7.5.5). A from-scratch model
+  starts with a "Views" folder holding "Default View".
+- **Moving nodes drops stored `sourceAttachment`/`targetAttachment`** of their connections
+  (they no longer match); bendpoints move when both ends move together.
+- **Export via download counts as a save** when there is no file handle (clears the dirty flag
+  and the autosave); Save writes through the File System Access handle when available.
+- **Fit view runs once when a view opens**; an empty view does not re-fit when its first node
+  appears (the viewport would jump under the user's next drop).
+- **Dev-only store hook** `window.__editor` (behind `import.meta.env.DEV`) lets E2E tests compare
+  model snapshots; it is not in production builds.
+- **Alignment/distribution** is scheduled for Phase 4 (listed there in §14).

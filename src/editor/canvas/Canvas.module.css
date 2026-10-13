@@ -27,3 +27,102 @@
 .canvas :global(.react-flow__edge-interaction) {
   pointer-events: stroke;
 }
+
+/* Connect bands along each border (US-3: drag from a node's border to connect). */
+.band {
+  position: absolute;
+  z-index: 2;
+  cursor: crosshair;
+}
+
+.band_top {
+  top: -3px;
+  left: 6px;
+  right: 6px;
+  height: 7px;
+}
+
+.band_bottom {
+  bottom: -3px;
+  left: 6px;
+  right: 6px;
+  height: 7px;
+}
+
+.band_left {
+  left: -3px;
+  top: 6px;
+  bottom: 6px;
+  width: 7px;
+}
+
+.band_right {
+  right: -3px;
+  top: 6px;
+  bottom: 6px;
+  width: 7px;
+}
+
+.band:hover {
+  background: color-mix(in srgb, var(--am-selection) 35%, transparent);
+}
+
+.linkLayer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.linkLayer line {
+  stroke: var(--am-selection);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+
+.inlineEditor {
+  position: absolute;
+  inset: 2px;
+  z-index: 5;
+  resize: none;
+  padding: 4px;
+  border: 1px solid var(--am-selection);
+  border-radius: 2px;
+  background: var(--bg);
+  color: var(--text);
+  font: 12px var(--font-ui);
+  text-align: center;
+}
+
+.edgeEditor {
+  position: absolute;
+  width: 160px;
+  height: 44px;
+  pointer-events: all;
+}
+
+.edgeEditor .inlineEditor {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bendpoint {
+  /* React Flow sets visibleStroke on edge children; handles must hit-test their fill too. */
+  pointer-events: all;
+  fill: var(--bg);
+  stroke: var(--am-selection);
+  stroke-width: 1.5;
+  cursor: move;
+}
+
+.resizeHandle {
+  z-index: 3;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 1px;
+  background: var(--bg) !important;
+  border: 1.5px solid var(--am-selection) !important;
+}

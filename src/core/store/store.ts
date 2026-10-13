@@ -37,6 +37,12 @@ export interface EditorState {
   /** Per-view "Show nested relationships" toggle (§8.6), default off. */
   showNested: Record<Id, boolean>;
   toasts: Toast[];
+  /** Inline rename in progress on the canvas (F2 / double-click). */
+  editing: { viewId: Id; kind: 'node' | 'connection'; id: Id } | null;
+  /** Validation results from the Validate button; null = not run since last change. */
+  validation: ModelWarning[] | null;
+  /** Blocking error banner (e.g. a file that failed to open). */
+  error: string | null;
 
   load(
     model: Model,
@@ -59,6 +65,9 @@ export interface EditorState {
   dismissWarnings(): void;
   toast(message: string, undoable?: boolean): void;
   dropToast(id: number): void;
+  setEditing(e: EditorState['editing']): void;
+  setValidation(v: ModelWarning[] | null): void;
+  setError(e: string | null): void;
 }
 
 export const EMPTY_SELECTION: Selection = { viewId: null, nodes: [], connections: [] };
@@ -115,6 +124,9 @@ export const useEditor = create<EditorState>()((set, get) => ({
   treeSelection: null,
   showNested: {},
   toasts: [],
+  editing: null,
+  validation: null,
+  error: null,
 
   load(model, opts = {}) {
     const first = model.viewOrder[0] ?? null;
@@ -132,6 +144,8 @@ export const useEditor = create<EditorState>()((set, get) => ({
       selection: EMPTY_SELECTION,
       treeSelection: null,
       showNested: {},
+      editing: null,
+      validation: null,
     });
   },
 
@@ -158,7 +172,7 @@ export const useEditor = create<EditorState>()((set, get) => ({
     if (model === s.model) return; // no-op command
     const past = [...s.past, entry];
     if (past.length > HISTORY_LIMIT) past.splice(0, past.length - HISTORY_LIMIT);
-    set({ model, past, future: [], ...reconcile(s, model) });
+    set({ model, past, future: [], validation: null, ...reconcile(s, model) });
   },
 
   undo() {
@@ -227,6 +241,18 @@ export const useEditor = create<EditorState>()((set, get) => ({
     const id = ++toastSeq;
     set((s) => ({ toasts: [...s.toasts, { id, message, undoable }] }));
     setTimeout(() => get().dropToast(id), 6000);
+  },
+
+  setEditing(editing) {
+    set({ editing });
+  },
+
+  setValidation(validation) {
+    set({ validation });
+  },
+
+  setError(error) {
+    set({ error });
   },
 
   dropToast(id) {
