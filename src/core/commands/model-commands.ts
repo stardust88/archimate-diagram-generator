@@ -845,3 +845,76 @@ export function createModel(name: string, lang = 'en'): Model {
 }
 
 export { compound };
+
+// ---------------------------------------------------------------------------------------------
+// Layout, align, distribute (Phase 4)
+
+/** Applies computed rects (no descendant shifting) and clears bendpoints/attachments. */
+export function applyLayout(
+  viewId: Id,
+  rects: NodeRect[],
+  connIds: Id[],
+  label = 'Layout view',
+): Command {
+  return command(label, (m) => {
+    const v = view(m, viewId);
+    const byId = new Map(v.nodes.map((n) => [n.id, n]));
+    for (const r of rects) {
+      const n = byId.get(r.id);
+      if (!n) continue;
+      n.x = Math.max(0, Math.round(r.x));
+      n.y = Math.max(0, Math.round(r.y));
+      n.w = Math.max(1, Math.round(r.w));
+      n.h = Math.max(1, Math.round(r.h));
+    }
+    const conns = new Set(connIds);
+    for (const c of v.connections) {
+      if (!conns.has(c.id)) continue;
+      c.bendpoints = [];
+      delete c.sourceAttachment;
+      delete c.targetAttachment;
+    }
+  });
+}
+
+export type Alignment = 'left' | 'center' | 'right' | 'top' | 'middle' | 'bottom';
+
+/** Aligns nodes to the first-selected node's edge or centre (moved nodes take children along). */
+export function alignNodes(viewId: Id, nodes: ViewNode[], how: Alignment): Command {
+  const ref = nodes[0]!;
+  const rects = nodes.map((n) => {
+    const r = { id: n.id, x: n.x, y: n.y, w: n.w, h: n.h };
+    if (how === 'left') r.x = ref.x;
+    else if (how === 'right') r.x = ref.x + ref.w - n.w;
+    else if (how === 'center') r.x = Math.round(ref.x + ref.w / 2 - n.w / 2);
+    else if (how === 'top') r.y = ref.y;
+    else if (how === 'bottom') r.y = ref.y + ref.h - n.h;
+    else r.y = Math.round(ref.y + ref.h / 2 - n.h / 2);
+    return r;
+  });
+  return moveResizeNodes(viewId, rects, `Align ${how}`);
+}
+
+/** Equal gaps between nodes along an axis, keeping the outermost two in place (needs ≥ 3). */
+export function distributeNodes(
+  viewId: Id,
+  nodes: ViewNode[],
+  axis: 'horizontal' | 'vertical',
+): Command {
+  const h = axis === 'horizontal';
+  const sorted = [...nodes].sort((a, b) => (h ? a.x - b.x : a.y - b.y));
+  const first = sorted[0]!;
+  const last = sorted[sorted.length - 1]!;
+  const span = h ? last.x + last.w - first.x : last.y + last.h - first.y;
+  const total = sorted.reduce((s, n) => s + (h ? n.w : n.h), 0);
+  const gap = (span - total) / (sorted.length - 1);
+  let pos = h ? first.x : first.y;
+  const rects = sorted.map((n) => {
+    const r = { id: n.id, x: n.x, y: n.y, w: n.w, h: n.h };
+    if (h) r.x = Math.round(pos);
+    else r.y = Math.round(pos);
+    pos += (h ? n.w : n.h) + gap;
+    return r;
+  });
+  return moveResizeNodes(viewId, rects, `Distribute ${axis}ly`);
+}

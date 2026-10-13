@@ -33,7 +33,18 @@ function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
 
-export function generateLargeModel(elements = 5000, views = 200, nodesPerView = 25): string {
+/** `firstViewNodes` makes view 0 larger (e.g. 500 nodes for the canvas performance check, §12). */
+export function generateLargeModel(
+  elements = 5000,
+  views = 200,
+  nodesPerView = 25,
+  firstViewNodes = nodesPerView,
+  /** Characters of documentation per element, to reach realistic file sizes (5 MB, §3 US-1). */
+  docChars = 0,
+): string {
+  const doc = docChars
+    ? `<documentation xml:lang="en">${'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '.repeat(Math.ceil(docChars / 57)).slice(0, docChars)}</documentation>`
+    : '';
   const out: string[] = [];
   out.push('<?xml version="1.0" encoding="UTF-8"?>');
   out.push(
@@ -44,7 +55,7 @@ export function generateLargeModel(elements = 5000, views = 200, nodesPerView = 
   for (let i = 0; i < elements; i++) {
     const t = TYPES[i % TYPES.length] ?? 'BusinessActor';
     out.push(
-      `    <element identifier="id-e${i}" xsi:type="${t}"><name xml:lang="en">${esc(`${t} ${i}`)}</name></element>`,
+      `    <element identifier="id-e${i}" xsi:type="${t}"><name xml:lang="en">${esc(`${t} ${i}`)}</name>${doc}</element>`,
     );
   }
   out.push('  </elements>');
@@ -62,21 +73,23 @@ export function generateLargeModel(elements = 5000, views = 200, nodesPerView = 
   for (let v = 0; v < views; v++) {
     out.push(`      <view identifier="id-v${v}" xsi:type="Diagram">`);
     out.push(`        <name xml:lang="en">View ${v}</name>`);
+    const count = v === 0 ? firstViewNodes : nodesPerView;
+    const cols = count > 25 ? 25 : 5;
     const first = (v * nodesPerView) % elements;
-    for (let n = 0; n < nodesPerView; n++) {
+    for (let n = 0; n < count; n++) {
       const e = (first + n) % elements;
-      const x = 20 + (n % 5) * 160;
-      const y = 20 + Math.floor(n / 5) * 100;
+      const x = 20 + (n % cols) * 160;
+      const y = 20 + Math.floor(n / cols) * 100;
       out.push(
         `        <node identifier="id-v${v}-n${n}" elementRef="id-e${e}" xsi:type="Element" x="${x}" y="${y}" w="120" h="55"/>`,
       );
     }
     // Draw r(e-1) when both e and its parent are on this view.
-    for (let n = 1; n < nodesPerView; n++) {
+    for (let n = 1; n < count; n++) {
       const e = (first + n) % elements;
       if (e === 0) continue;
       const tn = parentOf(e) - first;
-      if (tn >= 0 && tn < nodesPerView && tn !== n) {
+      if (tn >= 0 && tn < count && tn !== n) {
         out.push(
           `        <connection identifier="id-v${v}-c${n}" relationshipRef="id-r${e - 1}" xsi:type="Relationship" source="id-v${v}-n${n}" target="id-v${v}-n${tn}"/>`,
         );

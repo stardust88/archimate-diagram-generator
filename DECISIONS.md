@@ -143,3 +143,33 @@ relationship by the validator (nothing to check against), and export unchanged.
 - **Dev-only store hook** `window.__editor` (behind `import.meta.env.DEV`) lets E2E tests compare
   model snapshots; it is not in production builds.
 - **Alignment/distribution** is scheduled for Phase 4 (listed there in §14).
+
+## Phase 4
+
+- **Icons**: one component per icon in `src/notation/archimate/icons/` (43 icons; Grouping and
+  junctions use special renderers). Shapes follow the §8.4 table and were checked visually
+  against the ArchiMate 3.2 notation (the specification PDF is not in the repo, so this was a
+  check against the notation as published, via the gallery's 3x icon sheet). Stakeholder reuses
+  the role cylinder and Deliverable the representation shape, as the spec table says.
+- **Palette** shows each type as its box shape in the layer colour with the icon centred.
+- **Theme**: toolbar button cycles System → Light → Dark; the choice is a per-browser
+  convenience in localStorage (falls back to system when storage is unavailable).
+- **Auto-layout** (`core/layout/elk.ts`): ELK layered, DOWN, partitioned by layer
+  (strategy/motivation 0, business 1, application 2, technology 3, physical 4,
+  implementation 5; Location/Grouping/junctions 1), INCLUDE_CHILDREN, container padding with
+  room for the label. The laid-out bounding box is anchored at (20,20) for a whole view, or at
+  the selection's previous top-left for "Layout selection". Bendpoints and attachments of the
+  laid-out connections are cleared. One command = one undo step. elkjs is loaded lazily and
+  pre-bundled for the dev server.
+- **Align / distribute**: Arrange menu with left/centre/right/top/middle/bottom (reference = the
+  first-selected node) and horizontal/vertical distribution (≥ 3 nodes, outer nodes fixed).
+- **Model tree is virtualized** (fixed 22px rows, only the visible window rendered). Rendering
+  all 10,000 rows of the 5,000-element model took ~5 s; now the tree costs ~50 ms.
+- **Performance targets are measured on the production build** (`vite preview`, Playwright
+  project `performance`) with a generated ~5.2 MB model (5,000 elements, 200 views, one view
+  with 500 nodes). Typical results on this machine: import 1.5-2.0 s in app (file received →
+  first canvas frame; ~2.5 s end-to-end including Playwright pushing the file through the file
+  chooser), export 0.3-0.5 s, panning the 500-node view 60 fps. The dev server is slower
+  (on-demand module compilation, React StrictMode double rendering) and is not used for these
+  numbers. User Timing marks `am:file-picked`, `am:import-start`, `am:import-parsed`,
+  `am:import-rendered` are left in for profiling.

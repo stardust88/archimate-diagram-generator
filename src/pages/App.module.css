@@ -140,3 +140,10 @@
   color: var(--text);
   cursor: pointer;
 }
+
+/* The model tree scrolls itself (virtualized). */
+.treePanel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}

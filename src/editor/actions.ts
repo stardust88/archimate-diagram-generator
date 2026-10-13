@@ -73,8 +73,14 @@ export async function newModel(): Promise<void> {
 
 export function loadFile(f: OpenedFile): boolean {
   try {
+    // User Timing marks (visible in the browser's performance tools; used by the perf test).
+    performance.mark('am:import-start');
     const { model, warnings } = importModel(f.text, f.name);
+    performance.mark('am:import-parsed');
     st().load(model, { warnings, fileName: f.name, handle: f.handle });
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => performance.mark('am:import-rendered')),
+    );
     st().setError(null);
     return true;
   } catch (e) {
@@ -449,4 +455,50 @@ export async function chooseRelationship(
 
 export function undoToast(message: string): void {
   st().toast(message, true);
+}
+
+// ---------------------------------------------------------------------------------------------
+// Layout, align, distribute (Phase 4)
+
+/** Lays out the active view, or only the selected nodes when some are selected (§9.5). */
+export async function layout(selectionOnly = false): Promise<void> {
+  const s = st();
+  const m = s.model;
+  const v = s.activeView ? m?.views[s.activeView] : undefined;
+  if (!m || !v) return;
+  const sel = selectionInActiveView();
+  if (selectionOnly && !sel?.nodes.length) return;
+  const { layoutView } = await import('../core/layout/elk');
+  const res = await layoutView(m, v, selectionOnly ? sel!.nodes : undefined);
+  dispatch(
+    C.applyLayout(
+      v.id,
+      res.rects,
+      res.connections,
+      selectionOnly ? 'Layout selection' : 'Layout view',
+    ),
+  );
+  if (!selectionOnly) canvas?.fitView();
+}
+
+function selectedTopNodes(): { viewId: Id; nodes: ViewNode[] } | null {
+  const sel = selectionInActiveView();
+  const v = sel ? st().model?.views[sel.viewId] : undefined;
+  if (!sel || !v) return null;
+  const selected = new Set(sel.nodes);
+  // Keep selection order so the first-selected node is the alignment reference.
+  const nodes = sel.nodes
+    .map((id) => v.nodes.find((n) => n.id === id))
+    .filter((n): n is ViewNode => !!n && !hasSelectedAncestor(v.nodes, n, selected));
+  return { viewId: v.id, nodes };
+}
+
+export function align(how: C.Alignment): void {
+  const t = selectedTopNodes();
+  if (t && t.nodes.length >= 2) dispatch(C.alignNodes(t.viewId, t.nodes, how));
+}
+
+export function distribute(axis: 'horizontal' | 'vertical'): void {
+  const t = selectedTopNodes();
+  if (t && t.nodes.length >= 3) dispatch(C.distributeNodes(t.viewId, t.nodes, axis));
 }

@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { importModel } from './exchange/import';
 import { readFixture } from '../../test/fixtures';
 import { ELEMENT_TYPES } from './catalog';
+import { ICONS } from './icons';
 import { RELATIONSHIP_TYPES } from './relationships';
 import tableJson from './relationship-table.json';
 import { allowedRelationships, isAllowed, validateModel } from './validation';
@@ -38,6 +39,11 @@ describe('catalog', () => {
       expect(table[d.type], d.type).toBeDefined();
       expect(table.BusinessActor![d.type], d.type).toBeDefined();
     }
+  });
+
+  it('has a real icon for every type except the special figures (§8.4)', () => {
+    const missing = ELEMENT_TYPES.filter((d) => !ICONS[d.icon]).map((d) => d.type);
+    expect(missing).toEqual(['Grouping', 'AndJunction', 'OrJunction']);
   });
 
   it('applies box shapes by aspect (§8.2)', () => {

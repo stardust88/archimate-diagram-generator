@@ -27,6 +27,7 @@ export async function pickFile(): Promise<OpenedFile | null> {
     try {
       const [handle] = await w.showOpenFilePicker({ types: XML_TYPES, multiple: false });
       if (!handle) return null;
+      performance.mark('am:file-picked');
       const file = await handle.getFile();
       return { name: file.name, text: await file.text(), handle };
     } catch (e) {
@@ -39,6 +40,7 @@ export async function pickFile(): Promise<OpenedFile | null> {
     input.type = 'file';
     input.accept = '.xml,application/xml,text/xml';
     input.onchange = async () => {
+      performance.mark('am:file-picked');
       const file = input.files?.[0];
       resolve(file ? { name: file.name, text: await file.text(), handle: null } : null);
     };

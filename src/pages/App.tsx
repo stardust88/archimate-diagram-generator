@@ -155,7 +155,7 @@ export function App() {
 
       <div className={styles.body}>
         <aside className={styles.left}>
-          <section className={styles.panel} aria-label="Model tree">
+          <section className={`${styles.panel} ${styles.treePanel}`} aria-label="Model tree">
             <h2>Model</h2>
             <ModelTree {...treeHandlers} />
           </section>

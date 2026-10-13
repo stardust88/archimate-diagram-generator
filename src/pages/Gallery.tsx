@@ -8,6 +8,8 @@ import { connectionPoints } from '../editor/figures/geometry';
 import { MarkerDefs } from '../editor/figures/Markers';
 import { NodeFigure, type NodeFigureProps } from '../editor/figures/NodeFigure';
 import { ELEMENT_TYPES, LAYERS } from '../notation/archimate/catalog';
+import { defaultColors } from '../notation/archimate/colors';
+import { ICONS } from '../notation/archimate/icons';
 import styles from './Gallery.module.css';
 
 const LONG = 'A considerably longer element name that needs to wrap onto several lines';
@@ -173,6 +175,31 @@ function Section({ theme }: { theme: 'light' | 'dark' }) {
           }}
           caption="style override"
         />
+      </div>
+      <h3>Icons (3x)</h3>
+      <div className={styles.grid}>
+        {ELEMENT_TYPES.filter((d) => ICONS[d.icon]).map((d) => {
+          const Comp = ICONS[d.icon]!;
+          const c = defaultColors(d.type);
+          return (
+            <figure key={d.type} className={styles.cell}>
+              <svg
+                width={48}
+                height={48}
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ color: c.stroke, background: c.fill, ['--icon-fill' as string]: c.fill }}
+              >
+                <Comp />
+              </svg>
+              <figcaption>{d.label}</figcaption>
+            </figure>
+          );
+        })}
       </div>
       <h3>Relationships</h3>
       <div className={styles.grid}>

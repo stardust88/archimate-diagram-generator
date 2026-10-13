@@ -4,7 +4,9 @@ import { ELEMENT_TYPES, LAYERS, type ElementTypeDef } from '../../notation/archi
 import { allowedElementTypes } from '../../notation/archimate/viewpoints';
 import { canvasApi } from '../actions';
 import { DND_TYPE, dropAt } from '../canvas/Canvas';
-import { NodeFigure } from '../figures/NodeFigure';
+import { boxPath } from '../figures/boxPath';
+import { Icon } from '../figures/Icon';
+import { defaultColors } from '../../notation/archimate/colors';
 import styles from './Palette.module.css';
 
 /** Element palette (spec §9.2): by layer, searchable, filtered by the active view's viewpoint. */
@@ -95,15 +97,7 @@ export function Palette() {
                       }
                     }}
                   >
-                    <svg width={36} height={22} aria-hidden="true">
-                      <NodeFigure
-                        kind="element"
-                        type={d.type}
-                        name=""
-                        w={d.aspect === 'connector' ? 14 : 36}
-                        h={d.aspect === 'connector' ? 14 : 22}
-                      />
-                    </svg>
+                    <PaletteIcon def={d} />
                   </div>
                 ))}
               </div>
@@ -112,5 +106,36 @@ export function Palette() {
         );
       })}
     </div>
+  );
+}
+
+/** Layer-coloured tile in the type's box shape with its icon centred. */
+function PaletteIcon({ def }: { def: ElementTypeDef }) {
+  const c = defaultColors(def.type);
+  if (def.aspect === 'connector') {
+    return (
+      <svg width={36} height={24} aria-hidden="true">
+        <circle
+          cx={18}
+          cy={12}
+          r={6}
+          fill={def.type === 'AndJunction' ? 'var(--am-junction-fill)' : 'none'}
+          stroke="var(--am-junction-stroke)"
+          strokeWidth={1.2}
+        />
+      </svg>
+    );
+  }
+  const dashed = def.type === 'Grouping';
+  return (
+    <svg width={36} height={24} viewBox="-0.5 -0.5 37 25" aria-hidden="true">
+      <path
+        d={boxPath(def.box, 36, 24)}
+        fill={c.fill}
+        stroke={c.stroke}
+        strokeDasharray={dashed ? '3 2' : undefined}
+      />
+      {!dashed && <Icon type={def.type} x={10} y={4} color={c.stroke} fill={c.fill} />}
+    </svg>
   );
 }

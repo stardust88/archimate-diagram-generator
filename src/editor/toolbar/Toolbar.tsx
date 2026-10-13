@@ -2,6 +2,8 @@ import { setModelName } from '../../core/commands/model-commands';
 import { text } from '../../core/model/langstring';
 import { isDirty, useEditor } from '../../core/store/store';
 import * as A from '../actions';
+import { choiceMenu } from '../dialogs/dialogApi';
+import { nextTheme, setTheme, useTheme } from '../theme';
 import { useDraft } from '../useDraft';
 import styles from './Toolbar.module.css';
 
@@ -22,6 +24,49 @@ export function Toolbar({ minimap, onToggleMinimap, extra }: Props) {
   const redoLabel = useEditor((s) => s.future[0]?.redo.label);
   const dirty = useEditor((s) => isDirty(s));
   const hasView = useEditor((s) => !!s.activeView);
+  const selectedNodes = useEditor((s) =>
+    s.selection.viewId === s.activeView ? s.selection.nodes.length : 0,
+  );
+  const theme = useTheme();
+
+  const menuAt = (e: React.MouseEvent) => {
+    const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    return { x: r.left, y: r.bottom + 4 };
+  };
+  const onLayout = async (e: React.MouseEvent) => {
+    const c = await choiceMenu({
+      title: 'Layout',
+      at: menuAt(e),
+      options: [
+        { value: 'view', label: 'Layout view' },
+        ...(selectedNodes > 0 ? [{ value: 'sel', label: 'Layout selection' }] : []),
+      ],
+    });
+    if (c) await A.layout(c === 'sel');
+  };
+  const onArrange = async (e: React.MouseEvent) => {
+    const c = await choiceMenu({
+      title: 'Arrange',
+      at: menuAt(e),
+      options: [
+        { value: 'left', label: 'Align left' },
+        { value: 'center', label: 'Align centre' },
+        { value: 'right', label: 'Align right' },
+        { value: 'top', label: 'Align top' },
+        { value: 'middle', label: 'Align middle' },
+        { value: 'bottom', label: 'Align bottom' },
+        ...(selectedNodes >= 3
+          ? [
+              { value: 'dh', label: 'Distribute horizontally' },
+              { value: 'dv', label: 'Distribute vertically' },
+            ]
+          : []),
+      ],
+    });
+    if (c === 'dh') A.distribute('horizontal');
+    else if (c === 'dv') A.distribute('vertical');
+    else if (c) A.align(c as Parameters<typeof A.align>[0]);
+  };
 
   return (
     <header className={styles.toolbar} role="toolbar" aria-label="Main toolbar">
@@ -49,6 +94,18 @@ export function Toolbar({ minimap, onToggleMinimap, extra }: Props) {
       />
       <Sep />
       <Btn label="Add view" title="Add a view" disabled={!model} onClick={() => void A.addView()} />
+      <Btn
+        label="Layout"
+        title="Automatic layout"
+        disabled={!hasView}
+        onClick={(e) => void onLayout(e)}
+      />
+      <Btn
+        label="Arrange"
+        title="Align or distribute the selected elements"
+        disabled={selectedNodes < 2}
+        onClick={(e) => void onArrange(e)}
+      />
       {extra}
       <Sep />
       <Btn
@@ -80,6 +137,13 @@ export function Toolbar({ minimap, onToggleMinimap, extra }: Props) {
       />
       <Sep />
       <Btn label="Validate" title="Check the whole model" disabled={!model} onClick={A.validate} />
+      <Btn
+        label={
+          theme === 'system' ? 'Theme: system' : theme === 'light' ? 'Theme: light' : 'Theme: dark'
+        }
+        title="Switch between system, light and dark themes"
+        onClick={() => setTheme(nextTheme(theme))}
+      />
       <span className={styles.spacer} />
       {model && <ModelName />}
       {dirty && (
@@ -124,7 +188,7 @@ function Btn(p: {
   aria?: string;
   disabled?: boolean;
   pressed?: boolean;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
 }) {
   return (
     <button

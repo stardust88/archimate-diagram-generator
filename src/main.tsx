@@ -5,12 +5,15 @@ import { App } from './pages/App';
 import { DebugModel } from './pages/DebugModel';
 import { Gallery } from './pages/Gallery';
 import { useEditor } from './core/store/store';
+import { applyTheme } from './editor/theme';
 
 // Benign browser notice (layout settles over two frames when React Flow measures nodes); keep it
 // out of error reporting.
 window.addEventListener('error', (e) => {
   if (e.message?.includes('ResizeObserver loop')) e.stopImmediatePropagation();
 });
+
+applyTheme();
 
 const root = document.getElementById('root');
 if (!root) throw new Error('Missing #root element');
