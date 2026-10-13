@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Test-only schema for the "urn:example:vendor" namespace used by
+     fixtures/synthetic/vendor-extensions.xml, so its foreign content passes the strict wildcard. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="urn:example:vendor"
+           elementFormDefault="qualified"
+           attributeFormDefault="qualified">
+  <xs:element name="extension">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:anyAttribute processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attribute name="flag" type="xs:string"/>
+</xs:schema>

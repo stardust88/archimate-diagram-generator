@@ -1,0 +1,165 @@
+{
+  "archi/Sample1.xml": {
+    "elements": 2,
+    "relations": 1,
+    "views": 0,
+    "nodes": 0,
+    "connections": 0
+  },
+  "archi/bendpoint.test.xml": {
+    "elements": 2,
+    "relations": 2,
+    "views": 1,
+    "nodes": 2,
+    "connections": 2
+  },
+  "opengroup/Basic_Model.xml": {
+    "elements": 2,
+    "relations": 1,
+    "views": 0,
+    "nodes": 0,
+    "connections": 0
+  },
+  "opengroup/Basic_Model_Metadata.xml": {
+    "elements": 2,
+    "relations": 1,
+    "views": 0,
+    "nodes": 0,
+    "connections": 0
+  },
+  "opengroup/Basic_Model_Organization.xml": {
+    "elements": 2,
+    "relations": 1,
+    "views": 0,
+    "nodes": 0,
+    "connections": 0
+  },
+  "opengroup/Basic_Model_Properties.xml": {
+    "elements": 2,
+    "relations": 1,
+    "views": 0,
+    "nodes": 0,
+    "connections": 0
+  },
+  "opengroup/Model_View.xml": {
+    "elements": 5,
+    "relations": 5,
+    "views": 1,
+    "nodes": 5,
+    "connections": 2
+  },
+  "opengroup/interop-snippet-01.xml": {
+    "elements": 25,
+    "relations": 26,
+    "views": 2,
+    "nodes": 27,
+    "connections": 14
+  },
+  "opengroup/interop-snippet-02.xml": {
+    "elements": 25,
+    "relations": 24,
+    "views": 1,
+    "nodes": 25,
+    "connections": 24
+  },
+  "opengroup/interop-snippet-03.xml": {
+    "elements": 28,
+    "relations": 27,
+    "views": 1,
+    "nodes": 24,
+    "connections": 14
+  },
+  "opengroup/interop-snippet-04.xml": {
+    "elements": 28,
+    "relations": 33,
+    "views": 1,
+    "nodes": 28,
+    "connections": 27
+  },
+  "opengroup/interop-snippet-05.xml": {
+    "elements": 25,
+    "relations": 34,
+    "views": 1,
+    "nodes": 25,
+    "connections": 20
+  },
+  "opengroup/interop-snippet-06.xml": {
+    "elements": 21,
+    "relations": 20,
+    "views": 1,
+    "nodes": 21,
+    "connections": 15
+  },
+  "opengroup/interop-snippet-07.xml": {
+    "elements": 12,
+    "relations": 15,
+    "views": 1,
+    "nodes": 12,
+    "connections": 15
+  },
+  "opengroup/interop-snippet-08.xml": {
+    "elements": 26,
+    "relations": 31,
+    "views": 1,
+    "nodes": 26,
+    "connections": 29
+  },
+  "opengroup/interop-snippet-09.xml": {
+    "elements": 48,
+    "relations": 42,
+    "views": 1,
+    "nodes": 48,
+    "connections": 37
+  },
+  "opengroup/interop-snippet-10.xml": {
+    "elements": 53,
+    "relations": 49,
+    "views": 1,
+    "nodes": 53,
+    "connections": 40
+  },
+  "synthetic/dangling-and-unknown.xml": {
+    "elements": 3,
+    "relations": 3,
+    "views": 1,
+    "nodes": 4,
+    "connections": 3,
+    "xsdInvalid": true,
+    "minWarnings": 8
+  },
+  "synthetic/junctions-labels-containers.xml": {
+    "elements": 7,
+    "relations": 7,
+    "views": 1,
+    "nodes": 10,
+    "connections": 8
+  },
+  "synthetic/multi-lang.xml": {
+    "elements": 4,
+    "relations": 2,
+    "views": 1,
+    "nodes": 3,
+    "connections": 2
+  },
+  "synthetic/nested-3-levels.xml": {
+    "elements": 5,
+    "relations": 4,
+    "views": 1,
+    "nodes": 6,
+    "connections": 1
+  },
+  "synthetic/relationship-to-relationship.xml": {
+    "elements": 6,
+    "relations": 6,
+    "views": 1,
+    "nodes": 5,
+    "connections": 3
+  },
+  "synthetic/vendor-extensions.xml": {
+    "elements": 2,
+    "relations": 1,
+    "views": 2,
+    "nodes": 2,
+    "connections": 1
+  }
+}

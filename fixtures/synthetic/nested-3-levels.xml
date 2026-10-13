@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic: nesting 3 levels deep below a top-level node, absolute coordinates (spec §6.2). -->
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" identifier="id-nest-model">
+  <name xml:lang="en">Nested 3 levels</name>
+  <elements>
+    <element identifier="id-grp" xsi:type="Grouping"><name xml:lang="en">Data centre</name></element>
+    <element identifier="id-node" xsi:type="Node"><name xml:lang="en">App server</name></element>
+    <element identifier="id-dev" xsi:type="Device"><name xml:lang="en">Blade 7</name></element>
+    <element identifier="id-sw" xsi:type="SystemSoftware"><name xml:lang="en">JVM</name></element>
+    <element identifier="id-art" xsi:type="Artifact"><name xml:lang="en">orders.war</name></element>
+  </elements>
+  <relationships>
+    <relationship identifier="id-r1" source="id-grp" target="id-node" xsi:type="Aggregation"/>
+    <relationship identifier="id-r2" source="id-node" target="id-dev" xsi:type="Composition"/>
+    <relationship identifier="id-r3" source="id-dev" target="id-sw" xsi:type="Assignment"/>
+    <relationship identifier="id-r4" source="id-sw" target="id-art" xsi:type="Assignment"/>
+  </relationships>
+  <views>
+    <diagrams>
+      <view identifier="id-v1" xsi:type="Diagram">
+        <name xml:lang="en">Deployment</name>
+        <node identifier="id-n-grp" elementRef="id-grp" xsi:type="Element" x="20" y="20" w="560" h="380">
+          <node identifier="id-n-node" elementRef="id-node" xsi:type="Element" x="40" y="60" w="500" h="310">
+            <node identifier="id-n-dev" elementRef="id-dev" xsi:type="Element" x="60" y="100" w="440" h="240">
+              <node identifier="id-n-sw" elementRef="id-sw" xsi:type="Element" x="80" y="140" w="200" h="120"/>
+              <node identifier="id-n-art" elementRef="id-art" xsi:type="Element" x="320" y="160" w="120" h="55"/>
+            </node>
+          </node>
+        </node>
+        <node identifier="id-n-art2" elementRef="id-art" xsi:type="Element" x="640" y="160" w="120" h="55"/>
+        <connection identifier="id-c4" relationshipRef="id-r4" xsi:type="Relationship" source="id-n-sw" target="id-n-art2">
+          <bendpoint x="180" y="420"/>
+          <bendpoint x="700" y="420"/>
+        </connection>
+      </view>
+    </diagrams>
+  </views>
+</model>

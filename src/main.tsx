@@ -2,12 +2,11 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles/global.css';
 import { App } from './pages/App';
+import { DebugModel } from './pages/DebugModel';
 
 const root = document.getElementById('root');
 if (!root) throw new Error('Missing #root element');
 
-createRoot(root).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+const page = new URLSearchParams(location.search).get('page');
+
+createRoot(root).render(<StrictMode>{page === 'debug' ? <DebugModel /> : <App />}</StrictMode>);

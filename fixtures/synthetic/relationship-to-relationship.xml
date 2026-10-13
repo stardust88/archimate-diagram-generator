@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic: relationships whose end is another relationship, drawn as connection-to-connection. -->
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" identifier="id-rr-model">
+  <name xml:lang="en">Relationship to relationship</name>
+  <elements>
+    <element identifier="id-app" xsi:type="ApplicationComponent"><name xml:lang="en">CRM</name></element>
+    <element identifier="id-data" xsi:type="DataObject"><name xml:lang="en">Customer record</name></element>
+    <element identifier="id-note" xsi:type="BusinessObject"><name xml:lang="en">Access policy</name></element>
+    <element identifier="id-drv" xsi:type="Driver"><name xml:lang="en">Regulation</name></element>
+    <element identifier="id-goal" xsi:type="Goal"><name xml:lang="en">Compliance</name></element>
+    <element identifier="id-plat" xsi:type="Plateau"><name xml:lang="en">Target state</name></element>
+  </elements>
+  <relationships>
+    <relationship identifier="id-acc" source="id-app" target="id-data" xsi:type="Access" accessType="ReadWrite"/>
+    <relationship identifier="id-assoc" source="id-note" target="id-acc" xsi:type="Association" isDirected="true">
+      <name xml:lang="en">governs</name>
+    </relationship>
+    <relationship identifier="id-agg" source="id-plat" target="id-acc" xsi:type="Aggregation"/>
+    <relationship identifier="id-inf" source="id-drv" target="id-goal" xsi:type="Influence" modifier="++"/>
+    <relationship identifier="id-acc2" source="id-app" target="id-note" xsi:type="Access" accessType="Read"/>
+    <relationship identifier="id-acc3" source="id-app" target="id-note" xsi:type="Access"/>
+  </relationships>
+  <views>
+    <diagrams>
+      <view identifier="id-v1" xsi:type="Diagram">
+        <name xml:lang="en">R2R</name>
+        <node identifier="id-n-app" elementRef="id-app" xsi:type="Element" x="40" y="40" w="120" h="55"/>
+        <node identifier="id-n-data" elementRef="id-data" xsi:type="Element" x="400" y="40" w="120" h="55"/>
+        <node identifier="id-n-note" elementRef="id-note" xsi:type="Element" x="220" y="200" w="120" h="55"/>
+        <node identifier="id-n-drv" elementRef="id-drv" xsi:type="Element" x="40" y="320" w="120" h="55"/>
+        <node identifier="id-n-goal" elementRef="id-goal" xsi:type="Element" x="400" y="320" w="120" h="55"/>
+        <connection identifier="id-c-acc" relationshipRef="id-acc" xsi:type="Relationship" source="id-n-app" target="id-n-data"/>
+        <connection identifier="id-c-assoc" relationshipRef="id-assoc" xsi:type="Relationship" source="id-n-note" target="id-c-acc"/>
+        <connection identifier="id-c-inf" relationshipRef="id-inf" xsi:type="Relationship" source="id-n-drv" target="id-n-goal"/>
+      </view>
+    </diagrams>
+  </views>
+</model>

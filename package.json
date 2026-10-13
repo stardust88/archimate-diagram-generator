@@ -13,7 +13,10 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "fixtures:large": "node scripts/generate-large-fixture.ts",
+    "fixtures:count": "node scripts/count-fixtures.mjs",
+    "relationships:convert": "node scripts/convert-relationships.mjs"
   },
   "dependencies": {
     "@xyflow/react": "^12.12.0",
@@ -43,6 +46,7 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.71.2",
     "vite": "^8.3.4",
-    "vitest": "^5.0.4"
+    "vitest": "^5.0.4",
+    "xmllint-wasm": "^5.3.0"
   }
 }

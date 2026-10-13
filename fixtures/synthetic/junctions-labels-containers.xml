@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic: And/Or junctions, Label and Container nodes, Line connections, NestingRelationship,
+     source/target attachments. -->
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" identifier="id-jl-model">
+  <name xml:lang="en">Junctions, labels and containers</name>
+  <elements>
+    <element identifier="id-e1" xsi:type="BusinessEvent"><name xml:lang="en">Order received</name></element>
+    <element identifier="id-p1" xsi:type="BusinessProcess"><name xml:lang="en">Check stock</name></element>
+    <element identifier="id-p2" xsi:type="BusinessProcess"><name xml:lang="en">Check credit</name></element>
+    <element identifier="id-p3" xsi:type="BusinessProcess"><name xml:lang="en">Ship</name></element>
+    <element identifier="id-and" xsi:type="AndJunction"/>
+    <element identifier="id-or" xsi:type="OrJunction"><name xml:lang="en">either</name></element>
+    <element identifier="id-f1" xsi:type="BusinessFunction"><name xml:lang="en">Sales</name></element>
+  </elements>
+  <relationships>
+    <relationship identifier="id-t1" source="id-e1" target="id-and" xsi:type="Triggering"/>
+    <relationship identifier="id-t2" source="id-and" target="id-p1" xsi:type="Triggering"/>
+    <relationship identifier="id-t3" source="id-and" target="id-p2" xsi:type="Triggering"/>
+    <relationship identifier="id-t4" source="id-p1" target="id-or" xsi:type="Triggering"/>
+    <relationship identifier="id-t5" source="id-p2" target="id-or" xsi:type="Triggering"/>
+    <relationship identifier="id-t6" source="id-or" target="id-p3" xsi:type="Triggering"/>
+    <relationship identifier="id-c1" source="id-f1" target="id-p3" xsi:type="Composition"/>
+  </relationships>
+  <views>
+    <diagrams>
+      <view identifier="id-v1" xsi:type="Diagram">
+        <name xml:lang="en">Flow</name>
+        <node identifier="id-lbl" xsi:type="Label" x="20" y="10" w="300" h="30">
+          <label xml:lang="en">Order handling
+(two checks in parallel)</label>
+        </node>
+        <node identifier="id-box" xsi:type="Container" x="20" y="60" w="760" h="260">
+          <label xml:lang="en">Swimlane</label>
+          <style><fillColor r="240" g="240" b="240"/></style>
+          <node identifier="id-n-e1" elementRef="id-e1" xsi:type="Element" x="40" y="160" w="120" h="55"/>
+          <node identifier="id-n-and" elementRef="id-and" xsi:type="Element" x="200" y="180" w="15" h="15"/>
+          <node identifier="id-n-p1" elementRef="id-p1" xsi:type="Element" x="260" y="90" w="120" h="55"/>
+          <node identifier="id-n-p2" elementRef="id-p2" xsi:type="Element" x="260" y="230" w="120" h="55"/>
+          <node identifier="id-n-or" elementRef="id-or" xsi:type="Element" x="420" y="180" w="15" h="15"/>
+          <node identifier="id-n-f1" elementRef="id-f1" xsi:type="Element" x="480" y="80" w="280" h="220">
+            <node identifier="id-n-p3" elementRef="id-p3" xsi:type="Element" x="520" y="160" w="120" h="55"/>
+          </node>
+        </node>
+        <node identifier="id-note" xsi:type="Label" x="20" y="340" w="200" h="40">
+          <label xml:lang="en">Note</label>
+        </node>
+        <connection identifier="id-ct1" relationshipRef="id-t1" xsi:type="Relationship" source="id-n-e1" target="id-n-and"/>
+        <connection identifier="id-ct2" relationshipRef="id-t2" xsi:type="Relationship" source="id-n-and" target="id-n-p1">
+          <sourceAttachment x="207" y="180"/>
+          <bendpoint x="207" y="117"/>
+          <targetAttachment x="260" y="117"/>
+        </connection>
+        <connection identifier="id-ct3" relationshipRef="id-t3" xsi:type="Relationship" source="id-n-and" target="id-n-p2">
+          <bendpoint x="207" y="257"/>
+        </connection>
+        <connection identifier="id-ct4" relationshipRef="id-t4" xsi:type="Relationship" source="id-n-p1" target="id-n-or"/>
+        <connection identifier="id-ct5" relationshipRef="id-t5" xsi:type="Relationship" source="id-n-p2" target="id-n-or"/>
+        <connection identifier="id-ct6" relationshipRef="id-t6" xsi:type="Relationship" source="id-n-or" target="id-n-p3"/>
+        <connection identifier="id-cc1" relationshipRef="id-c1" xsi:type="NestingRelationship" source="id-n-f1" target="id-n-p3"/>
+        <connection identifier="id-line" xsi:type="Line" source="id-note" target="id-n-e1">
+          <label xml:lang="en">see</label>
+          <style lineWidth="1"><lineColor r="128" g="128" b="128"/></style>
+        </connection>
+      </view>
+    </diagrams>
+  </views>
+</model>

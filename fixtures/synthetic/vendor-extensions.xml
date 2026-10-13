@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic: vendor extensions in another namespace (elements in ##other slots, foreign
+     attributes), a <viewpoints> block, a view without xsi:type and several <organizations>.
+     Validated with src/test/vendor-ext.xsd, which declares the vendor namespace. -->
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:v="urn:example:vendor"
+       xsi:schemaLocation="http://www.opengroup.org/xsd/archimate/3.0/ http://www.opengroup.org/xsd/archimate/3.1/archimate3_Diagram.xsd"
+       identifier="id-vx-model" version="7.2" v:flag="model-level">
+  <name xml:lang="en">Vendor extensions</name>
+  <v:extension v:kind="model"><v:setting name="theme">dark</v:setting><v:setting name="grid">8</v:setting></v:extension>
+  <elements>
+    <element identifier="id-a1" xsi:type="ApplicationComponent" v:flag="element-level">
+      <name xml:lang="en">Billing</name>
+      <documentation xml:lang="en">Has vendor data.</documentation>
+      <v:extension v:kind="element">
+        <v:owner>Finance IT</v:owner>
+      </v:extension>
+      <properties>
+        <property propertyDefinitionRef="pd-1"><value xml:lang="en">gold</value></property>
+      </properties>
+    </element>
+    <element identifier="id-a2" xsi:type="ApplicationService"><name xml:lang="en">Invoicing</name></element>
+  </elements>
+  <relationships>
+    <relationship identifier="id-r1" source="id-a1" target="id-a2" xsi:type="Realization" v:flag="rel-level">
+      <v:extension v:kind="relationship"/>
+    </relationship>
+  </relationships>
+  <organizations>
+    <item><label xml:lang="en">Application</label><item identifierRef="id-a1" v:flag="org"/></item>
+  </organizations>
+  <organizations>
+    <item><label xml:lang="en">More</label><item identifierRef="id-a2"/><v:extension v:kind="folder"/></item>
+  </organizations>
+  <propertyDefinitions>
+    <propertyDefinition identifier="pd-1" type="string"><name xml:lang="en">Tier</name></propertyDefinition>
+  </propertyDefinitions>
+  <views>
+    <viewpoints>
+      <viewpoint identifier="vp-custom">
+        <name xml:lang="en">Custom viewpoint</name>
+        <concern><label xml:lang="en">Cost</label></concern>
+        <viewpointPurpose>Designing Informing</viewpointPurpose>
+        <allowedElementType type="ApplicationComponent"/>
+        <allowedRelationshipType type="Realization"/>
+      </viewpoint>
+    </viewpoints>
+    <diagrams>
+      <view identifier="id-v1" viewpointRef="vp-custom" v:flag="view-level">
+        <name xml:lang="en">No xsi:type on this view</name>
+        <v:extension v:kind="view"/>
+        <node identifier="id-n1" elementRef="id-a1" xsi:type="Element" x="40" y="40" w="120" h="55" v:flag="node-level">
+          <viewRef ref="id-v2"/>
+        </node>
+        <node identifier="id-n2" elementRef="id-a2" xsi:type="Element" x="240" y="40" w="120" h="55"/>
+        <connection identifier="id-c1" relationshipRef="id-r1" xsi:type="Relationship" source="id-n1" target="id-n2" v:flag="conn-level"/>
+      </view>
+      <view identifier="id-v2" xsi:type="Diagram">
+        <name xml:lang="en">Second</name>
+      </view>
+    </diagrams>
+  </views>
+</model>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic, intentionally NOT XSD-valid: dangling references of every kind, an unknown element
+     type, an unknown relationship type and a relationship the ArchiMate table does not allow.
+     Import must succeed with warnings; export must restore everything (spec §7.3.7-8). -->
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" identifier="id-dg-model">
+  <name xml:lang="en">Dangling and unknown</name>
+  <elements>
+    <element identifier="id-a1" xsi:type="BusinessActor">
+      <name xml:lang="en">Actor</name>
+      <properties><property propertyDefinitionRef="pd-missing"><value>x</value></property></properties>
+    </element>
+    <element identifier="id-u1" xsi:type="FancyWidget"><name xml:lang="en">From a newer tool</name></element>
+    <element identifier="id-d1" xsi:type="DataObject"><name xml:lang="en">Data</name></element>
+  </elements>
+  <relationships>
+    <relationship identifier="id-r1" source="id-a1" target="id-missing" xsi:type="Serving"/>
+    <relationship identifier="id-r2" source="id-a1" target="id-u1" xsi:type="Teleports"/>
+    <relationship identifier="id-r3" source="id-d1" target="id-a1" xsi:type="Triggering"/>
+  </relationships>
+  <organizations>
+    <item><label xml:lang="en">Stuff</label><item identifierRef="id-gone"/><item identifierRef="id-a1"/></item>
+  </organizations>
+  <views>
+    <diagrams>
+      <view identifier="id-v1" xsi:type="Diagram">
+        <name xml:lang="en">Broken view</name>
+        <node identifier="id-n1" elementRef="id-a1" xsi:type="Element" x="40" y="40" w="120" h="55"/>
+        <node identifier="id-n2" elementRef="id-nowhere" xsi:type="Element" x="240" y="40" w="120" h="55"/>
+        <node identifier="id-n3" elementRef="id-u1" xsi:type="Element" x="40" y="160" w="120" h="55"/>
+        <node identifier="id-n4" elementRef="id-d1" xsi:type="Element" x="240" y="160" w="120" h="55"/>
+        <connection identifier="id-c1" relationshipRef="id-r-nowhere" xsi:type="Relationship" source="id-n1" target="id-n2"/>
+        <connection identifier="id-c2" relationshipRef="id-r2" xsi:type="Relationship" source="id-n1" target="id-n-missing"/>
+        <connection identifier="id-c3" relationshipRef="id-r3" xsi:type="Relationship" source="id-n4" target="id-n1"/>
+      </view>
+    </diagrams>
+  </views>
+</model>

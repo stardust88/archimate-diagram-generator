@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic: several xml:lang variants on names, documentation, labels and property values. -->
+<model xmlns="http://www.opengroup.org/xsd/archimate/3.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" identifier="id-ml-model">
+  <name xml:lang="fr">Gestion des commandes</name>
+  <name xml:lang="en">Order management</name>
+  <documentation xml:lang="fr">Modèle bilingue.</documentation>
+  <documentation xml:lang="en">Bilingual model.
+Second line &amp; "quotes" &lt;kept&gt;.</documentation>
+  <properties>
+    <property propertyDefinitionRef="pd-owner">
+      <value xml:lang="fr">Équipe A</value>
+      <value xml:lang="en">Team A</value>
+    </property>
+  </properties>
+  <elements>
+    <element identifier="id-a1" xsi:type="BusinessActor">
+      <name xml:lang="fr">Client</name>
+      <name xml:lang="en">Customer</name>
+      <name xml:lang="de">Kunde</name>
+    </element>
+    <element identifier="id-s1" xsi:type="BusinessService">
+      <name xml:lang="fr">Service de commande</name>
+      <name xml:lang="en">Order service</name>
+      <documentation xml:lang="fr">Prise de commande.</documentation>
+    </element>
+    <element identifier="id-p1" xsi:type="BusinessProcess">
+      <name xml:lang="fr">Traiter la commande</name>
+      <properties>
+        <property propertyDefinitionRef="pd-owner"><value>Ops</value></property>
+        <property propertyDefinitionRef="pd-cost"><value>12.50</value></property>
+      </properties>
+    </element>
+    <element identifier="id-p2" xsi:type="BusinessProcess"><name>Sans langue</name></element>
+  </elements>
+  <relationships>
+    <relationship identifier="id-r1" source="id-s1" target="id-a1" xsi:type="Serving">
+      <name xml:lang="fr">sert</name>
+      <name xml:lang="en">serves</name>
+    </relationship>
+    <relationship identifier="id-r2" source="id-p1" target="id-s1" xsi:type="Realization"/>
+  </relationships>
+  <organizations>
+    <item>
+      <label xml:lang="fr">Métier</label>
+      <label xml:lang="en">Business</label>
+      <documentation xml:lang="en">Folder docs</documentation>
+      <item identifierRef="id-a1"/>
+      <item identifierRef="id-s1"/>
+      <item>
+        <label xml:lang="fr">Processus</label>
+        <item identifierRef="id-p1"/>
+        <item identifierRef="id-p2"/>
+      </item>
+    </item>
+    <item>
+      <label xml:lang="en">Relations</label>
+      <item identifierRef="id-r1"/>
+      <item identifierRef="id-r2"/>
+    </item>
+    <item identifier="id-views-folder">
+      <label xml:lang="en">Views</label>
+      <item identifierRef="id-v1"/>
+    </item>
+  </organizations>
+  <propertyDefinitions>
+    <propertyDefinition identifier="pd-owner" type="string">
+      <name xml:lang="fr">Propriétaire</name>
+      <name xml:lang="en">Owner</name>
+    </propertyDefinition>
+    <propertyDefinition identifier="pd-cost" type="currency"><name xml:lang="en">Cost</name></propertyDefinition>
+    <propertyDefinition identifier="pd-unused" type="boolean"><name xml:lang="en">Unused but kept</name></propertyDefinition>
+  </propertyDefinitions>
+  <views>
+    <diagrams>
+      <view identifier="id-v1" xsi:type="Diagram" viewpoint="Business Process Cooperation">
+        <name xml:lang="fr">Vue d'ensemble</name>
+        <name xml:lang="en">Overview</name>
+        <documentation xml:lang="en">View docs</documentation>
+        <properties>
+          <property propertyDefinitionRef="pd-owner"><value xml:lang="en">Architect</value></property>
+        </properties>
+        <node identifier="id-n1" elementRef="id-a1" xsi:type="Element" x="40" y="40" w="120" h="55">
+          <style lineWidth="2">
+            <fillColor r="255" g="255" b="181" a="100"/>
+            <lineColor r="92" g="92" b="92"/>
+            <font name="Segoe UI" size="9.5" style="bold italic"><color r="10" g="20" b="30"/></font>
+          </style>
+        </node>
+        <node identifier="id-n2" elementRef="id-s1" xsi:type="Element" x="240" y="40" w="120" h="55"/>
+        <node identifier="id-n3" elementRef="id-p1" xsi:type="Element" x="240" y="160" w="120" h="55">
+          <label xml:lang="en">Label override</label>
+        </node>
+        <connection identifier="id-c1" relationshipRef="id-r1" xsi:type="Relationship" source="id-n2" target="id-n1">
+          <label xml:lang="fr">sert</label>
+          <documentation xml:lang="en">Connection docs</documentation>
+          <style><lineColor r="0" g="0" b="255"/></style>
+        </connection>
+        <connection identifier="id-c2" relationshipRef="id-r2" xsi:type="Relationship" source="id-n3" target="id-n2"/>
+      </view>
+    </diagrams>
+  </views>
+</model>
